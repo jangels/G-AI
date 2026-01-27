@@ -4,7 +4,7 @@
 
 > SKILL IS DEAD. LONG LIVE GAI.  
 > To Skill is to Beg.  
-> Begging-as-a-Service
+> Begging-as-a-Service.
 > BEG SMART, LIVE PROUD (卑微地要,高傲地活).
 
 ## 🎯 项目简介
