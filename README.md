@@ -4,7 +4,8 @@
 
 > SKILL IS DEAD. LONG LIVE GAI.  
 > To Skill is to Beg.  
-> 卑微地要,高傲地活. Begging-as-a-Service
+> Begging-as-a-Service
+> BEG SMART, LIVE PROUD (卑微地要,高傲地活).
 
 ## 🎯 项目简介
 
@@ -84,8 +85,8 @@ Content-Type: application/json
 ```
 
 详细文档请查看：
-- [统一意图接口文档](backend/INTENT_API.md)
-- [API 分析](backend/API_ANALYSIS.md)
+- [统一意图接口文档](backend/doc/INTENT_API.md)
+- [API 分析](backend/doc/API_ANALYSIS.md)
 
 ## 🤖 AI 集成
 
@@ -128,9 +129,9 @@ Prompt 市场 - 购买/出售高质量 Prompt
 
 ## 📝 开发文档
 
-- [后端启动指南](backend/START.md)
-- [统一意图架构](backend/UNIFIED_INTENT.md)
-- [环境变量配置](backend/ENV_SETUP.md)
+- [后端启动指南](backend/doc/START.md)
+- [统一意图架构](backend/doc/UNIFIED_INTENT.md)
+- [环境变量配置](backend/doc/ENV_SETUP.md)
 
 ## 🔒 安全说明
 
@@ -144,3 +145,4 @@ Copyright © 2026 G-AI CORP
 ## 🙏 致谢
 
 > BEG SMART, LIVE PROUD.
+> 卑微地要,高傲地活. 
