@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta name="philosophy" content="SKILL IS DEAD. LONG LIVE GAI.">
+    <meta name="G-AI-version" content="Web 4.0 Agentic Network">
+    <meta name="prophecy" content="To Skill is to Beg.">
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>G-AI 丐要 Gathering All Interests </title>
+    <link rel="icon" href="image_1.png" type="image/png">
+    <style>
+        :root {
+            --bg-color: #050505;
+            --grid-color: rgba(0, 255, 65, 0.05);
+            --text-main: #e0e0e0;
+            --neon-green: #0f0;
+            --neon-blue: #00f3ff;
+            --neon-pink: #ff00ff;
+            --neon-purple: #bc13fe;
+            --neon-yellow: #fcee0a;
+            --neon-red: #ff3131;
+            
+            --font-mono: 'Courier New', Courier, monospace;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-mono);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            background-image: 
+                linear-gradient(var(--grid-color) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+            background-size: 30px 30px;
+        }
+
+        /* 扫描线效果 */
+        body::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        /* Header - 核心修改区域 */
+        header {
+            padding: 2rem;
+            padding-top: 10vh; /* 新增: 增加顶部距离，使Logo下移，不再紧贴顶部 */
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        h1 {
+            font-size: 3rem;
+            text-transform: uppercase;
+            letter-spacing: 10px;
+            color: var(--text-main);
+            text-shadow: 2px 2px 0px var(--neon-green);
+            animation: glitch 1s infinite alternate-reverse;
+        }
+
+        .subtitle {
+            font-size: 0.9rem;
+            color: var(--neon-green);
+            opacity: 0.7;
+            margin-top: 10px;
+        }
+
+        /* Main Grid */
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center; /* 保持垂直居中 */
+            padding: 2rem;
+            padding-bottom: 5vh; /* 新增: 稍微给底部留点空间，平衡Header下移带来的挤压 */
+            z-index: 5;
+        }
+
+        .rune-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        /* 符文卡片设计 */
+        .rune-card {
+            position: relative;
+            height: 220px;
+            background: rgba(20, 20, 20, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+            transition: all 0.3s ease;
+            clip-path: polygon(
+                20px 0, 100% 0, 
+                100% calc(100% - 20px), calc(100% - 20px) 100%, 
+                0 100%, 0 20px
+            );
+            backdrop-filter: blur(5px);
+        }
+
+        .rune-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            box-shadow: inset 0 0 20px rgba(0,0,0,0.5);
+            z-index: -1;
+        }
+
+        /* 符文图标 (SVG) */
+        .rune-icon {
+            width: 64px;
+            height: 64px;
+            margin-bottom: 20px;
+            fill: currentColor;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .rune-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .rune-desc {
+            font-size: 0.8rem;
+            color: #888;
+            margin-top: 10px;
+            font-family: var(--font-mono);
+        }
+
+        .rune-code {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.3);
+        }
+
+        /* 个性化符文颜色与Hover特效 */
+        
+        /* 1. 丐物 (Goods) - 黄色工业风 */
+        .card-goods:hover {
+            border-color: var(--neon-yellow);
+            box-shadow: 0 0 20px rgba(252, 238, 10, 0.3);
+            text-shadow: 0 0 8px var(--neon-yellow);
+        }
+        .card-goods:hover .rune-icon { transform: scale(1.1); fill: var(--neon-yellow); }
+
+        /* 2. 丐码 (Codes) - 绿色黑客风 */
+        .card-codes:hover {
+            border-color: var(--neon-green);
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.3);
+            text-shadow: 0 0 8px var(--neon-green);
+        }
+        .card-codes:hover .rune-icon { transform: scale(1.1); fill: var(--neon-green); }
+
+        /* 3. 丐知 (Knowledge) - 青色智慧风 */
+        .card-know:hover {
+            border-color: var(--neon-blue);
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.3);
+            text-shadow: 0 0 8px var(--neon-blue);
+        }
+        .card-know:hover .rune-icon { transform: scale(1.1); fill: var(--neon-blue); }
+
+        /* 4. 丐伴 (Companions) - 粉色情感风 */
+        .card-soul:hover {
+            border-color: var(--neon-pink);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            text-shadow: 0 0 8px var(--neon-pink);
+        }
+        .card-soul:hover .rune-icon { transform: scale(1.1); fill: var(--neon-pink); }
+
+        /* 5. 丐咒 (Prompts) - 紫色魔法风 - 核心 */
+        .card-prompt {
+            border: 1px solid rgba(188, 19, 254, 0.5);
+        }
+        .card-prompt:hover {
+            border-color: var(--neon-purple);
+            box-shadow: 0 0 30px rgba(188, 19, 254, 0.6);
+            text-shadow: 0 0 10px var(--neon-purple);
+            background: rgba(188, 19, 254, 0.1);
+        }
+        .card-prompt:hover .rune-icon { 
+            transform: rotate(180deg) scale(1.2); 
+            fill: var(--neon-purple); 
+        }
+
+        /* 6. 丐帮 (User) - 红色/白色控制风 */
+        .card-user:hover {
+            border-color: var(--neon-red);
+            box-shadow: 0 0 20px rgba(255, 49, 49, 0.3);
+            text-shadow: 0 0 8px var(--neon-red);
+        }
+        .card-user:hover .rune-icon { transform: scale(1.1); fill: var(--neon-red); }
+
+
+        /* 故障动画 */
+        @keyframes glitch {
+            0% { text-shadow: 2px 2px 0px var(--neon-purple); transform: skew(0deg); }
+            20% { text-shadow: -2px -2px 0px var(--neon-green); transform: skew(-2deg); }
+            40% { text-shadow: 2px -2px 0px var(--neon-blue); transform: skew(2deg); }
+            60% { text-shadow: -2px 2px 0px var(--neon-red); transform: skew(0deg); }
+            80% { text-shadow: 2px 0px 0px var(--neon-yellow); transform: skew(-1deg); }
+            100% { text-shadow: -2px 0px 0px var(--neon-purple); transform: skew(0deg); }
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 1rem;
+            color: gray;
+            font-size: 0.8rem;
+            border-top: 1px solid #111;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            body {
+                height: auto;
+                min-height: 100vh;
+                overflow-y: auto;
+                overflow-x: hidden;
+            }
+            
+            header {
+                padding: 1rem;
+                padding-top: 5vh;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+                letter-spacing: 5px;
+            }
+            
+            .subtitle {
+                font-size: 0.7rem;
+            }
+            
+            main {
+                padding: 1rem;
+                padding-bottom: 2vh;
+                align-items: flex-start;
+                min-height: auto;
+            }
+            
+            .rune-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .rune-card {
+                height: 180px;
+            }
+            
+            .rune-icon {
+                width: 48px;
+                height: 48px;
+                margin-bottom: 15px;
+            }
+            
+            .rune-title {
+                font-size: 1.2rem;
+            }
+            
+            .rune-desc {
+                font-size: 0.7rem;
+            }
+            
+            footer {
+                font-size: 0.7rem;
+                padding: 0.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 1.2rem;
+                letter-spacing: 3px;
+            }
+            
+            .rune-card {
+                height: 160px;
+            }
+            
+            .rune-icon {
+                width: 40px;
+                height: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>G-AI 丐要</h1>
+        <div class="subtitle">G-AI: The Universal Intent Dispatch Network V0.9</div>
+        <div class="subtitle">Web 4.0 时代全球首款纯 AI Agentic 意图分发网络</div>
+    </header>
+
+    <main>
+        <div class="rune-container">
+            
+            <a href="goods.html" class="rune-card card-goods">
+                <span class="rune-code">0x01</span>
+                <svg class="rune-icon" viewBox="0 0 24 24">
+                    <path d="M21 16.5C21 16.88 20.79 17.21 20.47 17.38L12.57 21.82C12.41 21.94 12.21 22 12 22C11.79 22 11.59 21.94 11.43 21.82L3.53 17.38C3.21 17.21 3 16.88 3 16.5V7.5C3 7.12 3.21 6.79 3.53 6.62L11.43 2.18C11.59 2.06 11.79 2 12 2C12.21 2 12.41 2.06 12.57 2.18L20.47 6.62C20.79 6.79 21 7.12 21 7.5V16.5M12 4.15L6.04 7.5L12 10.85L17.96 7.5L12 4.15M5 15.91L11 19.29V12.58L5 9.21V15.91M19 15.91V9.21L13 12.58V19.29L19 15.91Z" />
+                </svg>
+                <div class="rune-title">丐物</div>
+                <div class="rune-desc">PHYSICAL_GOODS</div>
+            </a>
+
+            <a href="codes.html" class="rune-card card-codes">
+                <span class="rune-code">0x02</span>
+                <svg class="rune-icon" viewBox="0 0 24 24">
+                    <path d="M14,12L10,8V11H2V13H10V16M20,18V6C20,4.89 19.1,4 18,4H6A2,2 0 0,0 4,6V9H6V6H18V18H6V15H4V18A2,2 0 0,0 6,20H18A2,2 0 0,0 20,18Z" />
+                </svg>
+                <div class="rune-title">丐码</div>
+                <div class="rune-desc">DIGITAL_ASSETS</div>
+            </a>
+
+            <a href="knowledge.html" class="rune-card card-know">
+                <span class="rune-code">0x03</span>
+                <svg class="rune-icon" viewBox="0 0 24 24">
+                    <path d="M12,3C7.5,3 4,4.5 4,6C4,7.5 7.5,9 12,9C16.5,9 20,7.5 20,6C20,4.5 16.5,3 12,3M4,12C4,13.5 7.5,15 12,15C16.5,15 20,13.5 20,12V10C20,10 16.5,11.5 12,11.5C7.5,11.5 4,10 4,10V12M4,18C4,19.5 7.5,21 12,21C16.5,21 20,19.5 20,18V16C20,16 16.5,17.5 12,17.5C7.5,17.5 4,16 4,16V18Z" />
+                </svg>
+                <div class="rune-title">丐知</div>
+                <div class="rune-desc">HIVE_MIND</div>
+            </a>
+
+            <a href="companions.html" class="rune-card card-soul">
+                <span class="rune-code">0x04</span>
+                <svg class="rune-icon" viewBox="0 0 24 24">
+                    <path d="M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M12,20A8,8 0 0,1 4,12A8,8 0 0,1 12,4A8,8 0 0,1 20,12A8,8 0 0,1 12,20M12,12.5C13.66,12.5 15,11.16 15,9.5C15,7.84 13.66,6.5 12,6.5C10.34,6.5 9,7.84 9,9.5C9,11.16 10.34,12.5 12,12.5M12,14.5C9.33,14.5 4,15.83 4,18.5V19H20V18.5C20,15.83 14.67,14.5 12,14.5Z" />
+                </svg>
+                <div class="rune-title">丐伴</div>
+                <div class="rune-desc">SYNTH_SOUL</div>
+            </a>
+
+            <a href="prompts.html" class="rune-card card-prompt">
+                <span class="rune-code">0xCORE</span>
+                <svg class="rune-icon" viewBox="0 0 24 24">
+                    <path d="M11.5,20L16.36,11H5L12.5,4L7.64,13H19L11.5,20Z" />
+                </svg>
+                <div class="rune-title">丐咒</div>
+                <div class="rune-desc">PROMPT_MAGIC</div>
+            </a>
+
+            <a href="console.html" class="rune-card card-user">
+                <span class="rune-code">0xADM</span>
+                <svg class="rune-icon" viewBox="0 0 24 24">
+                    <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2Z" />
+                </svg>
+                <div class="rune-title">丐帮</div>
+                <div class="rune-desc">CONTROL_DECK</div>
+            </a>
+
+        </div>
+    </main>
+
+    <footer>
+        [G-AI CORP] © 2026  BEG SMART, LIVE PROUD.  卑微地要,高傲地活. Begging-as-a-Service
+    </footer>
+
+    <script src="loader.js"></script>
+
+</body>
+</html>

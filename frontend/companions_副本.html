@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-AI // COMPANION_LINK</title>
+    <style>
+        :root {
+            --bg-color: #050005;
+            --neon-pink: #ff00ff;
+            --neon-purple: #bc13fe;
+            --heartbeat: #ff3333;
+            --text-main: #ffccff;
+            --font-display: 'Courier New', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-display);
+            /* 迷幻网格背景 */
+            background-image: 
+                linear-gradient(rgba(255, 0, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(188, 19, 254, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            perspective: 800px; /* 3D 视角 */
+        }
+
+        header {
+            padding: 2rem;
+            text-align: center;
+            border-bottom: 2px solid var(--neon-pink);
+            box-shadow: 0 0 20px var(--neon-pink);
+            background: rgba(20, 0, 20, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .title {
+            font-size: 2rem;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 0px var(--neon-purple);
+        }
+
+        .toggle-container {
+            display: flex;
+            justify-content: center;
+            margin: 2rem 0;
+            gap: 20px;
+        }
+
+        .mode-btn {
+            background: transparent;
+            border: 1px solid var(--neon-purple);
+            color: var(--neon-purple);
+            padding: 10px 30px;
+            cursor: pointer;
+            font-family: inherit;
+            transition: 0.3s;
+        }
+
+        .mode-btn.active {
+            background: var(--neon-pink);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-pink);
+            border-color: var(--neon-pink);
+        }
+
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2rem;
+            padding: 0 2rem 4rem 2rem;
+        }
+
+        .profile-card {
+            width: 300px;
+            background: rgba(20, 0, 20, 0.8);
+            border: 1px solid var(--neon-purple);
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+        }
+
+        .avatar-area {
+            height: 200px;
+            background: #000;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.2);
+            transition: 0.5s;
+        }
+
+        .profile-card:hover .avatar-img {
+            filter: grayscale(0%) sepia(20%) hue-rotate(-50deg);
+        }
+
+        .live-tag {
+            position: absolute;
+            top: 10px; right: 10px;
+            background: red;
+            color: white;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border-radius: 2px;
+            animation: blink 1s infinite;
+        }
+
+        .info-area {
+            padding: 1.5rem;
+        }
+
+        .name { font-size: 1.5rem; color: #fff; margin-bottom: 5px; }
+        .tags { font-size: 0.8rem; color: var(--neon-pink); margin-bottom: 15px; }
+        
+        .rate {
+            font-size: 1.2rem;
+            color: #fff;
+            border-top: 1px dashed #555;
+            padding-top: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .price { color: var(--neon-purple); }
+
+        /* 心跳动画 */
+        .ecg-line {
+            position: absolute;
+            bottom: 0; left: 0; width: 100%; height: 30px;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+        }
+        .ecg-path {
+            width: 100%;
+            height: 2px;
+            background: #333;
+            position: relative;
+        }
+        .ecg-dot {
+            width: 4px; height: 4px; background: var(--heartbeat);
+            position: absolute;
+            border-radius: 50%;
+            animation: ecg-move 2s linear infinite;
+            box-shadow: 0 0 5px var(--heartbeat);
+        }
+
+        @keyframes blink { 50% { opacity: 0.5; } }
+        @keyframes ecg-move { 0% { left: 0; opacity: 0; } 10% { opacity: 1; } 90% { opacity: 1; } 100% { left: 100%; opacity: 0; } }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="title">G-AI // COMPANIONS</div>
+        <div style="font-size: 0.8rem; margin-top:10px; color:var(--neon-pink)">CONNECTING LONELY SOULS...</div>
+    </header>
+
+    <div class="toggle-container">
+        <button class="mode-btn" onclick="alert('切换至生物碳基生命体列表...')">BIOLOGICAL (真人)</button>
+        <button class="mode-btn active">SYNTHETIC (AI)</button>
+    </div>
+
+    <div class="cards-container">
+
+        <div class="profile-card">
+            <div class="avatar-area">
+                <span style="font-size:5rem; color:#333;">♀</span>
+                <div class="live-tag">ONLINE</div>
+                <div class="ecg-line"><div class="ecg-path"><div class="ecg-dot"></div></div></div>
+            </div>
+            <div class="info-area">
+                <div class="name">EVA-01</div>
+                <div class="tags">#知性 #心理咨询 #声音好听</div>
+                <div class="rate">
+                    <span>TYPE: LLM-Audio</span>
+                    <span class="price">¥ 0.5 / min</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card">
+            <div class="avatar-area">
+                <span style="font-size:5rem; color:#333;">♂</span>
+                <div class="live-tag">BUSY</div>
+                <div class="ecg-line"><div class="ecg-path"><div class="ecg-dot" style="animation-duration:1s"></div></div></div>
+            </div>
+            <div class="info-area">
+                <div class="name">DAVID_BETA</div>
+                <div class="tags">#毒舌 #游戏陪玩 #代码调试</div>
+                <div class="rate">
+                    <span>TYPE: Gaming-Agent</span>
+                    <span class="price">¥ 1.0 / min</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-card" style="border-style:dashed; opacity:0.7">
+            <div class="avatar-area">
+                <span style="font-size:4rem; color:#555;">+</span>
+            </div>
+            <div class="info-area">
+                <div class="name">CUSTOMIZE</div>
+                <div class="tags">#按需生成 #绝对服从</div>
+                <div class="rate">
+                    <span>BUILD NEW</span>
+                    <span class="price">¥ 10.0</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="loader.js"></script>
+</body>
+</html>

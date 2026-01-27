@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-AI // CONSOLE_ROOT</title>
+    <style>
+        :root {
+            --bg-color: #000000;
+            --panel-bg: #0a0a0a;
+            --neon-red: #ff3333;
+            --neon-green: #00ff41;
+            --neon-blue: #00f3ff;
+            --text-main: #ccc;
+            --border: 1px solid #333;
+            --mono: 'Consolas', 'Monaco', monospace;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            background: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--mono);
+            height: 100vh;
+            margin: 0;
+            overflow: hidden;
+            display: grid;
+            grid-template-rows: 60px 1fr;
+        }
+
+        /* 顶部状态栏 */
+        header {
+            border-bottom: var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            background: rgba(10,10,10,0.9);
+        }
+
+        .brand { color: var(--neon-red); font-weight: bold; letter-spacing: 2px; }
+        .sys-stat { font-size: 0.8rem; color: var(--neon-green); }
+
+        /* 主布局 Grid */
+        main {
+            display: grid;
+            grid-template-columns: 250px 1fr 300px; /* 左侧栏 | 主监控 | 右侧流 */
+            gap: 1px;
+            background: #222; /* Grid lines color */
+        }
+
+        .panel {
+            background: var(--bg-color);
+            padding: 20px;
+            overflow-y: auto;
+            position: relative;
+        }
+
+        h2 {
+            font-size: 0.9rem;
+            color: #666;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+            border-bottom: 1px solid #222;
+            padding-bottom: 5px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        /* 左侧：Agent 蜂群状态 */
+        .agent-list { list-style: none; padding: 0; }
+        .agent-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px dashed #222;
+            font-size: 0.8rem;
+        }
+        
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #333;
+            box-shadow: 0 0 5px #333;
+        }
+        
+        .status-dot.active {
+            background: var(--neon-green);
+            box-shadow: 0 0 8px var(--neon-green);
+            animation: pulse 2s infinite;
+        }
+        
+        .status-dot.busy {
+            background: var(--neon-blue);
+            box-shadow: 0 0 8px var(--neon-blue);
+            animation: blink 0.2s infinite;
+        }
+
+        /* 中间：核心指标 & 地图 */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .kpi-card {
+            background: var(--panel-bg);
+            border: var(--border);
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .kpi-val { font-size: 2rem; color: #fff; margin: 10px 0; }
+        .kpi-label { font-size: 0.7rem; color: #666; }
+
+        .ascii-map {
+            font-size: 0.6rem;
+            line-height: 0.6rem;
+            color: #444;
+            white-space: pre;
+            text-align: center;
+            margin-top: 30px;
+            opacity: 0.5;
+        }
+
+        /* 右侧：实时数据流 (The Matrix Waterfall) */
+        .log-container {
+            font-size: 0.75rem;
+            color: #888;
+            height: 100%;
+            overflow: hidden; 
+            position: relative;
+        }
+
+        .log-entry {
+            margin-bottom: 5px;
+            border-left: 2px solid transparent;
+            padding-left: 8px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .log-entry.type-req { border-color: var(--neon-blue); color: #aaa; }
+        .log-entry.type-warn { border-color: var(--neon-red); color: var(--neon-red); }
+        .log-entry.type-money { border-color: var(--neon-green); color: var(--neon-green); }
+
+        .timestamp { color: #444; margin-right: 5px; }
+
+        /* 动画 */
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.2; } 100% { opacity: 1; } }
+        @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+        /* 简单的 CSS 进度条 */
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background: #222;
+            margin-top: 5px;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--neon-green);
+            width: 0%;
+            transition: width 0.5s;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+                min-height: 100vh;
+            }
+            
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+                padding: 10px;
+                font-size: 0.8rem;
+            }
+            
+            .sys-stat {
+                font-size: 0.7rem;
+                word-break: break-all;
+            }
+            
+            main {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            
+            .panel {
+                padding: 15px;
+            }
+            
+            .kpi-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            
+            .kpi-val {
+                font-size: 1.5rem;
+            }
+            
+            .ascii-map {
+                font-size: 0.5rem;
+                line-height: 0.5rem;
+                margin-top: 20px;
+            }
+            
+            .log-container {
+                max-height: 300px;
+                overflow-y: auto;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            header {
+                font-size: 0.7rem;
+            }
+            
+            .brand {
+                font-size: 0.9rem;
+            }
+            
+            .kpi-val {
+                font-size: 1.2rem;
+            }
+            
+            h2 {
+                font-size: 0.8rem;
+            }
+            
+            .agent-item {
+                font-size: 0.7rem;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="brand">G-AI // ADMIN_CONSOLE</div>
+        <div class="sys-stat">
+            CPU: 12% | MEM: 4.2GB | UPTIME: 32h 14m | <span style="color:var(--neon-green)">SYSTEM OPTIMAL</span>
+        </div>
+    </header>
+
+    <main>
+        <div class="panel">
+            <h2>
+                AGENT SWARM
+                <span style="font-size:0.7rem; color:var(--neon-green)">ONLINE</span>
+            </h2>
+            <ul class="agent-list">
+                <li class="agent-item">
+                    <span>G-Router (Core)</span>
+                    <div class="status-dot active"></div>
+                </li>
+                <li class="agent-item">
+                    <span>Beggar-LLM (Copy)</span>
+                    <div class="status-dot busy"></div>
+                </li>
+                <li class="agent-item">
+                    <span>Pricing-Hound (Spider)</span>
+                    <div class="status-dot active"></div>
+                </li>
+                <li class="agent-item">
+                    <span>Negotiator-Bot (B2B)</span>
+                    <div class="status-dot"></div>
+                </li>
+                <li class="agent-item">
+                    <span>Prompt-Validator</span>
+                    <div class="status-dot active"></div>
+                </li>
+            </ul>
+
+            <h2 style="margin-top: 30px">QUEUE LOAD</h2>
+            <div style="font-size:0.7rem; margin-bottom:5px">Intent Parsing</div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 45%"></div></div>
+            
+            <div style="font-size:0.7rem; margin-bottom:5px; margin-top:10px">Generation Tasks</div>
+            <div class="progress-bar"><div class="progress-fill" style="width: 82%; background:var(--neon-red)"></div></div>
+        </div>
+
+        <div class="panel">
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">TOTAL REQUESTS (24H)</div>
+                    <div class="kpi-val" id="req-count">8,492</div>
+                    <div style="color:var(--neon-green); font-size:0.8rem">↑ 12%</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-label">GMV (ESTIMATED)</div>
+                    <div class="kpi-val">¥ 42,109</div>
+                    <div style="color:var(--neon-blue); font-size:0.8rem">PENDING: ¥12,000</div>
+                </div>
+            </div>
+
+            <h2>GLOBAL DEMAND HEATMAP</h2>
+            <div class="ascii-map">
+.      .  :   .    .   .  
+   .   _.__   .   .  :   
+   .  /    \      .    . 
+.    |  CN  |   :    .   
+ .    \____/   .   .     
+    .  :    .      .    .
+ [SHANGHAI: HIGH] [BEIJING: CRITICAL]
+            </div>
+
+            <div style="margin-top:40px; border:1px solid #333; padding:20px; color:#666; font-size:0.8rem;">
+                > SYSTEM ALERT: 
+                Detected high demand for "iPhone 15" in University District. 
+                <br>> ACTION: 
+                Deployed "Negotiator-Bot" to contact 3 suppliers.
+            </div>
+        </div>
+
+        <div class="panel" id="log-panel">
+            <h2>
+                TRANSACTION STREAM
+                <span style="font-size:0.7rem">LIVE</span>
+            </h2>
+            <div class="log-container" id="log-container">
+                </div>
+        </div>
+    </main>
+
+    <script>
+        // 模拟实时日志流
+        const logContainer = document.getElementById('log-container');
+        const actions = [
+            { type: 'req', text: 'User_9527 requested "Midjourney Prompt"' },
+            { type: 'req', text: 'User_3011 requested "KFC Coupon"' },
+            { type: 'warn', text: 'Pricing-Hound blocked IP: 192.168.x.x' },
+            { type: 'money', text: 'PAYMENT SUCCESS: 5.0 G-COIN' },
+            { type: 'req', text: 'Analysis: Intent "Begging" detected' },
+            { type: 'money', text: 'Bounty Reward Issued: ¥ 10.00' }
+        ];
+
+        function addLog() {
+            const action = actions[Math.floor(Math.random() * actions.length)];
+            const div = document.createElement('div');
+            const time = new Date().toLocaleTimeString('en-US', {hour12: false});
+            
+            div.className = `log-entry type-${action.type}`;
+            div.innerHTML = `<span class="timestamp">[${time}]</span> ${action.text}`;
+            
+            logContainer.prepend(div);
+
+            // 保持日志数量不超过50条，防止DOM卡顿
+            if (logContainer.children.length > 50) {
+                logContainer.removeChild(logContainer.lastChild);
+            }
+        }
+
+        // 随机数字跳动特效
+        function updateStats() {
+            const reqCount = document.getElementById('req-count');
+            let current = parseInt(reqCount.innerText.replace(',', ''));
+            reqCount.innerText = (current + Math.floor(Math.random() * 5)).toLocaleString();
+        }
+
+        // 启动循环
+        setInterval(addLog, 800);
+        setInterval(updateStats, 2000);
+
+        // 初始填充一些日志
+        for(let i=0; i<10; i++) addLog();
+    </script>
+    <script src="loader.js"></script>
+</body>
+</html>

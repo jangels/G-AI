@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>G-AI // ASSET_CODES</title>
+    <style>
+        :root {
+            --bg-color: #000;
+            --matrix-green: #00ff41;
+            --dim-green: #003b00;
+            --text-main: #e0e0e0;
+            --font-code: 'Consolas', 'Monaco', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--matrix-green);
+            font-family: var(--font-code);
+            overflow-x: hidden;
+        }
+
+        /* 顶部数据流 */
+        header {
+            border-bottom: 1px solid var(--matrix-green);
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 20, 0, 0.9);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .status {
+            font-size: 0.8rem;
+            animation: pulse 2s infinite;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        /* 资产列表 */
+        .asset-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .asset-table th {
+            text-align: left;
+            padding: 15px;
+            border-bottom: 2px solid var(--matrix-green);
+            color: #fff;
+            text-transform: uppercase;
+        }
+
+        .asset-table td {
+            padding: 15px;
+            border-bottom: 1px solid var(--dim-green);
+            color: #ccc;
+        }
+
+        .asset-row:hover {
+            background: rgba(0, 255, 65, 0.1);
+            cursor: pointer;
+        }
+
+        .token-status {
+            display: inline-block;
+            padding: 2px 8px;
+            font-size: 0.7rem;
+            border: 1px solid var(--matrix-green);
+            color: var(--matrix-green);
+        }
+        
+        .token-status.rented {
+            border-color: #ff3333;
+            color: #ff3333;
+        }
+
+        .btn-rent {
+            background: var(--dim-green);
+            color: #fff;
+            border: none;
+            padding: 5px 15px;
+            font-family: var(--font-code);
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-rent:hover {
+            background: var(--matrix-green);
+            color: #000;
+        }
+
+        /* 倒计时特效 */
+        .countdown {
+            font-family: monospace;
+            letter-spacing: 1px;
+        }
+
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 0.5rem;
+                padding: 0.8rem;
+            }
+            
+            .status {
+                font-size: 0.7rem;
+            }
+            
+            .container {
+                margin: 1rem auto;
+                padding: 0 0.5rem;
+            }
+            
+            .asset-table {
+                display: none; /* 隐藏表格 */
+            }
+            
+            /* 移动端卡片式布局 */
+            .asset-card {
+                background: rgba(0, 20, 0, 0.6);
+                border: 1px solid var(--dim-green);
+                margin-bottom: 1rem;
+                padding: 1rem;
+            }
+            
+            .asset-card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 0.8rem;
+                padding-bottom: 0.8rem;
+                border-bottom: 1px solid var(--dim-green);
+            }
+            
+            .asset-id {
+                font-size: 0.9rem;
+                color: var(--matrix-green);
+                font-weight: bold;
+            }
+            
+            .asset-type {
+                font-size: 0.7rem;
+                color: #888;
+            }
+            
+            .asset-info-row {
+                display: flex;
+                justify-content: space-between;
+                margin-bottom: 0.5rem;
+                font-size: 0.85rem;
+            }
+            
+            .asset-action {
+                margin-top: 1rem;
+            }
+            
+            .btn-rent {
+                width: 100%;
+                padding: 10px;
+            }
+        }
+        
+        /* 桌面端隐藏卡片 */
+        @media (min-width: 769px) {
+            .asset-card {
+                display: none;
+            }
+        }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div>G-AI // DIGITAL_ASSET_POOL</div>
+        <div class="status">ENCRYPTED :: SHA-256</div>
+    </header>
+
+    <div class="container">
+        <div style="margin-bottom:20px; color:#666;">
+            > SELECT * FROM available_assets WHERE type = 'SHARED_ACCOUNT';
+        </div>
+
+        <table class="asset-table">
+            <thead>
+                <tr>
+                    <th>ASSET ID</th>
+                    <th>TYPE</th>
+                    <th>AVAILABILITY</th>
+                    <th>RATE (G-COIN)</th>
+                    <th>ACTION</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="asset-row">
+                    <td>0xAA_NETFLIX_4K</td>
+                    <td>STREAMING_ACC</td>
+                    <td>
+                        <span class="token-status">AVAILABLE</span>
+                    </td>
+                    <td>0.5 / Hour</td>
+                    <td><button class="btn-rent">RENT NOW</button></td>
+                </tr>
+
+                <tr class="asset-row">
+                    <td>0xBB_GPT4_PLUS</td>
+                    <td>AI_MODEL_API</td>
+                    <td>
+                        <span class="token-status rented">IN USE</span>
+                        <span class="countdown" style="margin-left:10px; color:#ff3333;">00:14:59</span>
+                    </td>
+                    <td>1.0 / Hour</td>
+                    <td><button class="btn-rent" disabled style="opacity:0.5; cursor:not-allowed">QUEUE</button></td>
+                </tr>
+
+                <tr class="asset-row">
+                    <td>0xCC_STEAM_WUKONG</td>
+                    <td>GAME_LIBRARY</td>
+                    <td>
+                        <span class="token-status">AVAILABLE</span>
+                    </td>
+                    <td>2.0 / Day</td>
+                    <td><button class="btn-rent">RENT NOW</button></td>
+                </tr>
+
+                <tr class="asset-row">
+                    <td>0xDD_ADOBE_SUITE</td>
+                    <td>TOOL_LICENSE</td>
+                    <td>
+                        <span class="token-status">AVAILABLE</span>
+                    </td>
+                    <td>0.8 / Hour</td>
+                    <td><button class="btn-rent">RENT NOW</button></td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- 移动端卡片布局 -->
+        <div class="asset-card">
+            <div class="asset-card-header">
+                <div>
+                    <div class="asset-id">0xAA_NETFLIX_4K</div>
+                    <div class="asset-type">STREAMING_ACC</div>
+                </div>
+                <span class="token-status">AVAILABLE</span>
+            </div>
+            <div class="asset-info-row">
+                <span>RATE:</span>
+                <span>0.5 / Hour</span>
+            </div>
+            <div class="asset-action">
+                <button class="btn-rent">RENT NOW</button>
+            </div>
+        </div>
+        
+        <div class="asset-card">
+            <div class="asset-card-header">
+                <div>
+                    <div class="asset-id">0xBB_GPT4_PLUS</div>
+                    <div class="asset-type">AI_MODEL_API</div>
+                </div>
+                <div>
+                    <span class="token-status rented">IN USE</span>
+                    <span class="countdown" style="display:block; margin-top:5px; color:#ff3333;">00:14:59</span>
+                </div>
+            </div>
+            <div class="asset-info-row">
+                <span>RATE:</span>
+                <span>1.0 / Hour</span>
+            </div>
+            <div class="asset-action">
+                <button class="btn-rent" disabled style="opacity:0.5; cursor:not-allowed">QUEUE</button>
+            </div>
+        </div>
+        
+        <div class="asset-card">
+            <div class="asset-card-header">
+                <div>
+                    <div class="asset-id">0xCC_STEAM_WUKONG</div>
+                    <div class="asset-type">GAME_LIBRARY</div>
+                </div>
+                <span class="token-status">AVAILABLE</span>
+            </div>
+            <div class="asset-info-row">
+                <span>RATE:</span>
+                <span>2.0 / Day</span>
+            </div>
+            <div class="asset-action">
+                <button class="btn-rent">RENT NOW</button>
+            </div>
+        </div>
+        
+        <div class="asset-card">
+            <div class="asset-card-header">
+                <div>
+                    <div class="asset-id">0xDD_ADOBE_SUITE</div>
+                    <div class="asset-type">TOOL_LICENSE</div>
+                </div>
+                <span class="token-status">AVAILABLE</span>
+            </div>
+            <div class="asset-info-row">
+                <span>RATE:</span>
+                <span>0.8 / Hour</span>
+            </div>
+            <div class="asset-action">
+                <button class="btn-rent">RENT NOW</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="loader.js"></script>
+</body>
+</html>
