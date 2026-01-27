@@ -92,8 +92,8 @@ Content-Type: application/json
 
 项目集成了 Google Gemini AI 用于生成"赛博乞讨"文案。
 
-- [Gemini 集成文档](backend/GEMINI_INTEGRATION.md)
-- [环境变量配置](backend/ENV_SETUP.md)
+- [Gemini 集成文档](backend/doc/GEMINI_INTEGRATION.md)
+- [环境变量配置](backend/doc/ENV_SETUP.md)
 
 ## 🎨 功能模块
 
@@ -129,8 +129,8 @@ Prompt 市场 - 购买/出售高质量 Prompt
 
 ## 📝 开发文档
 
-- [后端启动指南](backend/doc/START.md)
 - [统一意图架构](backend/doc/UNIFIED_INTENT.md)
+- [后端启动指南](backend/doc/START.md)
 - [环境变量配置](backend/doc/ENV_SETUP.md)
 
 ## 🔒 安全说明
