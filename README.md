@@ -139,7 +139,12 @@ Prompt 市场 - 购买/出售高质量 Prompt
 
 ## 📄 许可证
 
+本项目采用 [MIT License](LICENSE) 许可证。
+
 Copyright © 2026 G-AI CORP
+
+> BEG SMART, LIVE PROUD.  
+> 卑微地要,高傲地活.
 
 ## 🙏 致谢
 
