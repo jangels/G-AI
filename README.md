@@ -10,6 +10,46 @@
 
 G-AI 是一个基于 AI 意图分发的网络平台，将用户的"体面需求"转化为"赛博乞讨文案"，并通过统一的意图接口处理所有业务逻辑。
 
+## 🚀 快速启动
+
+### 方式 1: 一键启动（推荐）
+
+同时启动前端和后端：
+
+```bash
+./start.sh
+```
+
+### 方式 2: 分别启动
+
+**启动后端：**
+```bash
+./start_backend.sh
+# 或
+cd backend && uv run python run.py
+```
+
+**启动前端：**
+```bash
+./start_frontend.sh
+# 或
+cd frontend && python3 -m http.server 8000
+```
+
+### 停止服务
+
+```bash
+./stop.sh
+```
+
+## 📍 服务地址
+
+启动成功后访问：
+
+- **前端页面**: http://127.0.0.1:8000
+- **后端 API**: http://127.0.0.1:8001
+- **API 文档**: http://127.0.0.1:8001/docs
+
 ## 🏗️ 项目结构
 
 ```
@@ -29,40 +69,12 @@ G-AI/
 │   │   ├── models/   # 数据模型
 │   │   ├── services/ # 业务逻辑
 │   │   └── api/      # API 路由
+│   ├── doc/          # 文档目录
 │   └── run.py        # 启动脚本
+├── start.sh          # 一键启动脚本
+├── stop.sh           # 停止脚本
 └── docker-compose.yml
 ```
-
-## 🚀 快速开始
-
-### 后端启动
-
-```bash
-cd backend
-
-# 安装依赖
-uv sync
-
-# 配置环境变量
-cp .env.example .env
-# 编辑 .env 文件，填入 GEMINI_API_KEY
-
-# 启动服务
-uv run python run.py
-```
-
-服务将在 `http://127.0.0.1:8001` 启动
-
-### 前端访问
-
-直接在浏览器中打开 `frontend/index.html` 或使用本地服务器：
-
-```bash
-cd frontend
-python -m http.server 8000
-```
-
-访问 `http://localhost:8000`
 
 ## 📡 API 文档
 
@@ -145,8 +157,3 @@ Copyright © 2026 G-AI CORP
 
 > BEG SMART, LIVE PROUD.  
 > 卑微地要,高傲地活.
-
-## 🙏 致谢
-
-> BEG SMART, LIVE PROUD.
-> 卑微地要,高傲地活. 

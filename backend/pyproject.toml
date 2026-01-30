@@ -13,4 +13,5 @@ dependencies = [
     "openai==1.10.0",
     "httpx==0.26.0",
     "google-generativeai==0.3.2",
+    "pillow>=10.0.0",  # PIL 图像处理库，用于 random_brothers_miss.py
 ]
